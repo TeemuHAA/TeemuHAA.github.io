@@ -1,16 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Teemu Haapamäki</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background-color: #f9f9f9;
-      text-align: center;
       margin: 0;
+      padding: 0;
+    }
+
+    .page-layout {
+      display: flex;
+      flex-direction: row;
+      position: relative;
+    }
+
+    .main-content {
+      flex: 1;
       padding: 20px;
+      text-align: center;
     }
 
     iframe {
@@ -23,48 +34,112 @@
       margin: 10px 0;
     }
 
-.badge-container {
-  text-align: center;
-  margin-top: 20px;
-}
+    .sidebar {
+      width: 200px;
+      background-color: #f0f0f0;
+      padding: 15px;
+      position: fixed;
+      top: 0;
+      right: -220px; /* Hidden by default */
+      height: 100%;
+      overflow-y: auto;
+      transition: right 0.3s ease;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
 
-.badge-container > div {
-  display: inline-block;
-  width: 150px;
-  margin: 0 4px; /* very tight horizontal spacing */
-}
+    .sidebar.open {
+      right: 0;
+    }
+
+    .badge-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .toggle-sidebar-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #007acc;
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 6px;
+      z-index: 1001;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      cursor: pointer;
+    }
+
+    a {
+      color: #007acc;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
-  <h1>Teemu Haapamäki</h1>
-  <p>I'm hosted with GitHub Pages.</p>
-  <a href="https://teemuhaa.github.io/documentation">
-    Documentation about projects (for applications)
-  </a>
+  <div class="page-layout">
+    <!-- Main Content -->
+    <main class="main-content">
+      <h1>Teemu Haapamäki</h1>
+      <p>I'm hosted with GitHub Pages.</p>
+      <a href="https://teemuhaa.github.io/documentation">
+        Documentation about projects (for applications)
+      </a>
 
-  <!-- Game 1 -->
-  <iframe src="https://itch.io/embed/3560573" width="552" height="167">
-    <a href="https://l4nkk.itch.io/divine-decisions-department">
-      Divine Decisions Department by L4nkk, Kageroomaru, Frass, Oakkie, awisx3, venssi, Weeba, designeryukiko
-    </a>
-  </iframe>
+      <!-- Game 1 -->
+      <iframe src="https://itch.io/embed/3560573" width="552" height="167">
+        <a href="https://l4nkk.itch.io/divine-decisions-department">
+          Divine Decisions Department by L4nkk, Kageroomaru, Frass, Oakkie, awisx3, venssi, Weeba, designeryukiko
+        </a>
+      </iframe>
 
-  <!-- Game 2 -->
-  <iframe src="https://itch.io/embed/3183486" width="552" height="167">
-    <a href="https://l4nkk.itch.io/blaspark">
-      Blaspark by L4nkk, Oakkie, awisx3, designeryukiko, Weeba, venssi
-    </a>
-  </iframe>
+      <!-- Game 2 -->
+      <iframe src="https://itch.io/embed/3183486" width="552" height="167">
+        <a href="https://l4nkk.itch.io/blaspark">
+          Blaspark by L4nkk, Oakkie, awisx3, designeryukiko, Weeba, venssi
+        </a>
+      </iframe>
+    </main>
 
-  <!-- Credly Badges -->
-  <div class="badge-container">
-    <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="07678751-34cb-41c4-b9af-446c82198a98" data-share-badge-host="https://www.credly.com"></div>
-    <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="b1e74b13-87d0-400e-840d-8b7eea9911ab" data-share-badge-host="https://www.credly.com"></div>
-    <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="b9111b63-2d3b-463e-b41e-d294ee27a3bd" data-share-badge-host="https://www.credly.com"></div>
-    <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="61de5279-9044-4d20-b936-829847df8c74" data-share-badge-host="https://www.credly.com"></div>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <button class="close-btn" onclick="toggleSidebar()">×</button>
+      <div class="badge-container">
+        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="07678751-34cb-41c4-b9af-446c82198a98" data-share-badge-host="https://www.credly.com"></div>
+        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="b1e74b13-87d0-400e-840d-8b7eea9911ab" data-share-badge-host="https://www.credly.com"></div>
+        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="b9111b63-2d3b-463e-b41e-d294ee27a3bd" data-share-badge-host="https://www.credly.com"></div>
+        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="61de5279-9044-4d20-b936-829847df8c74" data-share-badge-host="https://www.credly.com"></div>
+      </div>
+    </aside>
+
+    <!-- Toggle Button -->
+    <button class="toggle-sidebar-btn" onclick="toggleSidebar()">☰ Badges</button>
   </div>
 
-  <!-- Credly Script (only once) -->
-  <script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+  <!-- Scripts -->
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("open");
+    }
+  </script>
+  <script async src="//cdn.credly.com/assets/utilities/embed.js"></script>
 </body>
 </html>
